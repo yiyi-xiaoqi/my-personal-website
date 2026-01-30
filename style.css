@@ -1,3 +1,39 @@
+
+:root {
+    /* 1. 背景色变量 */
+    --bg-body: #f4f4f4;       /* 整个网页的大背景 */
+    --bg-header: #35424a;     /* 导航栏背景 */
+    --bg-card: #ffffff;       /* 卡片/文章/简介的背景 */
+    
+    /* 2. 文字颜色变量 */
+    --text-main: #333333;     /* 普通文字颜色 */
+    --text-light: #ffffff;    /* 深色背景上的浅色文字（如导航栏） */
+    --text-highlight: #e8491d;/* 那个骚气的橙色（高亮色） */
+    --text-nav-a:#ffffff;
+
+    /* 3. 边框和阴影变量 */
+    --border-color: #ddd;     /* 卡片边框 */
+    --shadow-color: rgba(0,0,0,0.1); /* 阴影是黑色的 */
+}
+
+/* === 当 body 拥有 dark-mode 类时，重新赋值变量 === */
+body.dark-mode {
+    /* 1. 背景变黑 */
+    --bg-body: #121212;
+    --bg-header: #000000;     /* 导航栏变得更黑 */
+    --bg-card: #1e1e1e;       /* 卡片变成深灰 */
+
+    /* 2. 文字变白 */
+    --text-main: #e0e0e0;
+    /* --text-light 保持白色不变，或者是稍微暗一点的白，这里我们不动它 */
+    --text-highlight: #ff6b3d; /* 夜间模式下，橙色稍微亮一点，防刺眼 */
+    --text-nav-a:#4db8ff;
+
+    /* 3. 边框变暗，阴影变白 */
+    --border-color: #333;
+    --shadow-color: rgba(255,255,255,0.1); /* 关键！夜里的阴影得是淡淡的白色才能看见 */
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -7,16 +43,16 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: var(--bg-body);
+    color: var(--text-main);
 }
 
 header {
-    background-color: #35424a;
+    background-color: var(--bg-header);
     color: #ffffff;
     padding-top: 30px;
     min-height: 70px;
-    border-bottom: #e8491d 3px solid;   
+    border-bottom: var(--text-highlight) 3px solid;   
 }
 
 nav {
@@ -37,13 +73,13 @@ nav ul li {
 }
 
 nav a{
-    color: #ffffff;
+    color: var(--text-nav-a);
     text-decoration: none;
     font-weight: bold;
     font-size:16px;
 }
 nav a:hover {
-    color: #e8491d;
+    color:var(--text-highlight);
 }
 
 main{
@@ -55,77 +91,48 @@ main{
 #about {
     text-align: center;
     padding: 50px 20px;
-    background-color: #ffffff;
+    background-color: var(--bg-card);
     margin-bottom: 30px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px var(--shadow-color);
 }
 
 #about h2{
-    color: #e8491d;
+    color: var(--text-highlight);
     margin-bottom: 10px;
 }
 
 #projects h2{
-    border-left: 5px solid #e8491d;
+    border-left: 5px solid var(--text-highlight);
     padding-left: 15px;
     margin-bottom: 20px;
 }
 
 article{
-    background: #ffffff;
+    background: var(--bg-card);
     padding: 20px;
     margin-bottom: 20px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     border-radius: 5px;
     transition: transform 0.3s;
 }
 
 article:hover{
     transform: scale(1.02);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px var(--shadow-color);
 }
 
 article h3{
-    color: #35424a;
+    color: var(--text-main);
 }
 
 footer {
-    background-color: #35424a;
+    background-color: var(--bg-header);
     color: #ffffff;
     text-align:center;
     padding:20px;
     margin-top:40px;
     font-size: 0.9em;
-}
-
-body.dark-mode{
-    background-color:#121212;
-    color: #e0e0e0;
-}
-
-body.dark-mode header{
-    background-color: #000000;
-}
-
-body.dark-mode article{
-    background-color: #1e1e1e;
-    color:#e0e0e0;
-    border-color:#333;
-}
-
-body.dark-mode a{
-    color:#4db8ff;
-}
-
-body.dark-mode #about{
-    background-color:#1e1e1e;
-    color:#e0e0e0;
-    box-shadow:0 4px 8px rgba(255,255,255,0.1);
-}
-
-body.dark-mode #about h2{
-    color:#ff6b3d;
 }
 
 #theme-toggle{
@@ -136,4 +143,41 @@ body.dark-mode #about h2{
     border-radius:5px;
     cursor:pointer;
     margin-left:20px;
+}
+
+
+
+/* =========================================
+   📱 移动端适配 (响应式设计核心)
+   当屏幕宽度小于 768px 时，应用下面的样式
+========================================= */
+@media (max-width: 768px) {
+
+    /* 1. 让导航栏垂直排列 */
+    nav {
+        flex-direction: column; /* 关键！从横向变成纵向 */
+        text-align: center;     /* 让内容居中对齐 */
+    }
+
+    /* 2. 给菜单项之间加点垂直间距 */
+    nav ul {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        padding-left: 0; /* 去掉默认的左边距 */
+    }
+
+    nav ul li {
+        margin-left: 0;   /* 去掉之前的左边距 */
+        margin-bottom: 10px; /* 变成下边距 */
+    }
+    
+    /* 3. 调整那个关灯按钮的位置 */
+    #theme-toggle {
+        margin-left: 0; /* 去掉左边距，因为它现在是独自一行了 */
+    }
+
+    /* 4. 调整主要内容区的宽度 */
+    main {
+        width: 95%; /* 手机屏幕本来就窄，两边别留那么多空了，占满点 */
+    }
 }
